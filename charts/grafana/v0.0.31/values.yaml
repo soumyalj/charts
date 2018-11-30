@@ -104,7 +104,9 @@ ingress:
 
   ## Annotations for Alertmanager Ingress
   ##
-  annotations: {}
+  annotations: 
+    rancher.io/globalDNS.hostname: ""
+  
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
 

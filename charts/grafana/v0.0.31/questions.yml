@@ -84,6 +84,10 @@ questions:
     type: hostname
     required: true
     label: Hostname
+  - variable: ingress.annotations.rancher.io/globalDNS.hostname
+    description: "Enter Global DNS hostname as an ingress annotation"
+    type: hostname
+    label: Enter Global DNS hostname as an ingress annotation
 - variable: service.type
   default: "NodePort"
   description: "Grafana service type"
