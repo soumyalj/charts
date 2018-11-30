@@ -97,6 +97,9 @@ resources: {}
   # requests:
   #   memory: 400Mi
 
+globalDNS:
+  enable: false
+
 ingress:
   ## If true, Grafana Ingress will be created
   ##
