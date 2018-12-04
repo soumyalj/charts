@@ -90,9 +90,8 @@ questions:
     type: boolean
     label: Enable Global DNS
     show_subquestion_if: true
-  - variable: ingress.annotations[0]
+  - variable: ingress.annotations."rancher\.io/globalDNS\.hostname"
     type: string
-    default: "rancher.io/globalDNS.hostname"
     label: Enter Global DNS hostname as an ingress annotation
     description: "Enter Global DNS hostname as an ingress annotation"
     show_if: "globalDNS.enable=true"
