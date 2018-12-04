@@ -90,7 +90,7 @@ questions:
     type: boolean
     label: Enable Global DNS
     show_subquestion_if: true
-  - variable: ingress.annotations.rancher.io/globalDNS.hostname
+  - variable: ingress.annotations.rancher.io\/globalDNS.hostname
     type: string
     label: Enter Global DNS hostname as an ingress annotation
     description: "Enter Global DNS hostname as an ingress annotation"
