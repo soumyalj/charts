@@ -1,0 +1,19 @@
+"values": {
+            "adminPassword": "",
+            "adminUser": "admin",
+            "auth.anonymous.enabled": "true",
+            "defaultImage": "true",
+            "grafanaWatcher.image.repository": "appropriate/curl",
+            "grafanaWatcher.image.tag": "latest",
+            "image.repository": "grafana/grafana",
+            "image.tag": "5.0.0",
+            "ingress.enabled": "true",
+            "ingress.hosts[0]": "xip.io",
+            "globalDNS.enable": "true",
+            "ingress.annotations.rancher\\.io/globalDNS\\.hostname": "test2.blah.blah",
+            "persistence.enabled": "false",
+            "persistence.size": "8Gi",
+            "persistence.storageClass": "",
+            "service.nodePort": "",
+            "service.type": "NodePort"
+        }
