@@ -2,7 +2,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "nfs.fullname" . }}-runner
+  name: "nfs-provisioner"
 rules:
   - apiGroups: [""]
     resources: ["persistentvolumes"]
@@ -21,28 +21,28 @@ rules:
     verbs: ["get"]
   - apiGroups: ["extensions"]
     resources: ["podsecuritypolicies"]
-    resourceNames: [{{ template "nfs.fullname" . }}]
+    resourceNames: ["nfs-provisioner"]
     verbs: ["use"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: run-{{ template "nfs.fullname" . }}
+  name: "nfs-provisioner"
 subjects:
   - kind: ServiceAccount
-    name: {{ template "nfs.fullname" . }}
+    name: "nfs-provisioner"
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "nfs.fullname" . }}-runner
+  name: "nfs-provisioner"
   apiGroup: rbac.authorization.k8s.io
 ---
 kind: DaemonSet
 apiVersion: extensions/v1beta1
 metadata:
-  name: {{ template "nfs.fullname" . }}
+  name: "nfs-provisioner"
   labels:
-    app: {{ template "nfs.name" . }}
+    app: "nfs-provisioner"
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -50,10 +50,10 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "nfs.name" . }}
+        app: "nfs-provisioner"
         release: {{ .Release.Name }}
     spec:
-      serviceAccount: {{ template "nfs.fullname" . }}
+      serviceAccount: "nfs-provisioner"
       containers:
         - name: nfs-provisioner
           image: "{{ .Values.NFS.image.repository }}:{{ .Values.NFS.image.tag }}"
@@ -75,7 +75,7 @@ spec:
                 - DAC_READ_SEARCH
                 - SYS_RESOURCE
           args:
-            - "-provisioner=local.net/{{ template "nfs.fullname" . }}"
+            - "-provisioner=local.net/nfs-provisioner"
           env:
             - name: POD_IP
               valueFrom:
@@ -96,7 +96,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "nfs.fullname" . }}
+  name: "nfs-provisioner"
 spec:
   fsGroup:
     rule: RunAsAny
@@ -120,12 +120,12 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ template "nfs.fullname" . }}
+  name: "nfs-provisioner"
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: {{ template "nfs.fullname" . }}
+  name: "nfs-provisioner"
   {{- if .Values.NFS.Persistence.defaultClass }}
   annotations:
     storageclass.beta.kubernetes.io/is-default-class: "true"
@@ -135,5 +135,5 @@ metadata:
   {{- end }}
   labels:
     kubernetes.io/cluster-service: "true"
-provisioner: local.net/{{ template "nfs.fullname" . }}
+provisioner: local.net/nfs-provisioner
 {{- end }}
