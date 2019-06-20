@@ -56,7 +56,7 @@ spec:
       serviceAccount: "nfs-provisioner"
       containers:
         - name: nfs-provisioner
-          image: "{{ .Values.NFS.image.repository }}:{{ .Values.NFS.image.tag }}"
+          image: "{{ .Values.NFS.Repository }}:{{ .Values.NFS.image.tag }}"
           imagePullPolicy: {{ .Values.NFS.image.pullPolicy }}
           ports:
             - name: nfs

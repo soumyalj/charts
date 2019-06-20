@@ -106,6 +106,7 @@ ExtraInitAnnotations: {}
 # Declare variables to be passed into your templates.
 NFS:
   Enabled: true
+  Repository: quay.io/kubernetes_incubator/nfs-provisioner
   Image:
     repository: quay.io/kubernetes_incubator/nfs-provisioner
     tag: v1.0.8
