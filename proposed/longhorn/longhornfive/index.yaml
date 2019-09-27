@@ -1,0 +1,33 @@
+apiVersion: v1
+entries:
+  longhornfive:
+  - apiVersion: v1
+    appVersion: v0.5.0
+    created: "2019-09-27T15:33:25.256548-07:00"
+    description: Longhorn is a distributed block storage system for Kubernetes powered
+      by Rancher Labs.
+    digest: e12db5f6a601fa734f2d0e72d8778c06abdfe66ab3821b063e201988cdd48b07
+    home: https://github.com/rancher/longhorn
+    icon: https://s3.us-east-2.amazonaws.com/longhorn-assets/longhorn-logo.svg
+    keywords:
+    - longhorn
+    - storage
+    - distributed
+    - block
+    - device
+    - iscsi
+    kubeVersion: '>=v1.8.0-r0'
+    maintainers:
+    - email: charts@rancher.com
+      name: rancher
+    name: longhornfive
+    sources:
+    - https://github.com/rancher/longhorn
+    - https://github.com/rancher/longhorn-engine
+    - https://github.com/rancher/longhorn-manager
+    - https://github.com/rancher/longhorn-ui
+    - https://github.com/rancher/longhorn-tests
+    urls:
+    - longhornfive-0.5.0.tgz
+    version: 0.5.0
+generated: "2019-09-27T15:33:25.255131-07:00"
