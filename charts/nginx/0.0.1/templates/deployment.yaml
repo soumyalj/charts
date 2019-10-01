@@ -1,4 +1,4 @@
-{{ if ( .Values.test.mySwitch.enabled and eq .Values.test.mySwitch.enabled "true") }}
+{{ if (.Values.test.mySwitch.enabled) and eq .Values.test.mySwitch.enabled "true" }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
