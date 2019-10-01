@@ -1,0 +1,7 @@
+name: nginx
+version: 0.0.1
+appVersion: 0.0.1
+description: Test nginx chart
+maintainers:
+- name: rajashree
+  email: rajashree.28m@gmail.com
