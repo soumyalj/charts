@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  nginxhelm:
+  - appVersion: 0.0.1
+    created: "2019-10-04T11:07:40.101455-07:00"
+    description: Test nginx chart
+    digest: 45858c29a24f4997579747e2297cf20053c684cd17597160142d45e561a1f608
+    maintainers:
+    - email: rajashree.28m@gmail.com
+      name: rajashree
+    name: nginxhelm
+    urls:
+    - nginxhelm-0.0.1.tgz
+    version: 0.0.1
+generated: "2019-10-04T11:07:40.10077-07:00"
