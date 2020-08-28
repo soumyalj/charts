@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backupRestore.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "backupRestore.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "backupRestore.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "backupRestore.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/s3-secret.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: {{ include "backupRestore.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ template "system_default_registry" . }}{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: Always
+        env:
+        - name: CHART_NAMESPACE
+          value: {{ .Release.Namespace }}
+          {{- if .Values.s3.enabled }}
+        - name: DEFAULT_S3_BACKUP_STORAGE_LOCATION
+          value: {{ include "backupRestore.s3SecretName" . }}
+          {{- end }}
+          {{- if .Values.persistence.enabled }}
+        - name: DEFAULT_PVC_NAME
+          value: {{ include "backupRestore.pvcName" . }}
+        volumeMounts:
+        - mountPath: "/var/lib/backups"
+          name: pv-storage
+      volumes:
+        - name: pv-storage
+          persistentVolumeClaim:
+            claimName: {{ include "backupRestore.pvcName" . }}
+          {{- end}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

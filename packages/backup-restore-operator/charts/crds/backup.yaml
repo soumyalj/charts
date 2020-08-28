@@ -1,0 +1,119 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: backups.resources.cattle.io
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.storageLocation
+    name: Storage-Location
+    type: string
+  - JSONPath: .status.backupType
+    name: Backup-Type
+    type: string
+  - JSONPath: .status.numSnapshots
+    name: Backups-Saved
+    type: string
+  - JSONPath: .status.prefix
+    name: Backupfile-Prefix
+    type: string
+  - JSONPath: .status.conditions[?(@.type=="Ready")].message
+    name: Status
+    type: string
+  group: resources.cattle.io
+  names:
+    kind: Backup
+    plural: backups
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      properties:
+        spec:
+          properties:
+            encryptionConfigName:
+              description: Name of the Secret containing the encryption config, must
+                be in the same namespace as the operator
+              type: string
+            resourceSetName:
+              description: Name of the ResourceSet CR to use for backup, must be in
+                the same namespace as the operator
+              type: string
+            retentionCount:
+              type: integer
+            schedule:
+              description: Cron schedule for recurring backups
+              example:
+                Descriptors: '@midnight'
+                Standard crontab specs: '* * * * ?'
+              type: string
+            storageLocation:
+              nullable: true
+              properties:
+                s3:
+                  nullable: true
+                  properties:
+                    bucketName:
+                      type: string
+                    credentialSecretName:
+                      type: string
+                    endpoint:
+                      type: string
+                    endpointCA:
+                      type: string
+                    folder:
+                      type: string
+                    insecureTLSSkipVerify:
+                      type: boolean
+                    region:
+                      type: string
+                  type: object
+              type: object
+          required:
+          - resourceSetName
+          type: object
+        status:
+          properties:
+            backupType:
+              type: string
+            conditions:
+              items:
+                properties:
+                  lastTransitionTime:
+                    type: string
+                  lastUpdateTime:
+                    type: string
+                  message:
+                    type: string
+                  reason:
+                    type: string
+                  status:
+                    type: string
+                  type:
+                    type: string
+                type: object
+              nullable: true
+              type: array
+            filename:
+              type: string
+            lastSnapshotTs:
+              type: string
+            nextSnapshotAt:
+              type: string
+            numSnapshots:
+              type: integer
+            observedGeneration:
+              type: integer
+            prefix:
+              type: string
+            storageLocation:
+              type: string
+            summary:
+              type: string
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true

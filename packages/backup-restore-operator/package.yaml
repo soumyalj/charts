@@ -1,0 +1,4 @@
+url: 
+generateCRDChart:
+  enabled: true
+  providesGVR: resourcesets.resources.cattle.io/v1
